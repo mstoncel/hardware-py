@@ -16,6 +16,7 @@ platform_table = {
             'google_chrome': 'Library/Application Support/Google/Chrome/Default/History',
             'safari': 'Library/Safari/History.db',
             'firefox': 'Library/Application Support/Firefox/Profiles',
+            'opera': 'Library/Application Support/com.operasoftware.Opera/History'
         }
     },
     'win32': '',
@@ -37,6 +38,11 @@ class BrowserHistorySQL:
         datetime(visit_time + 978307200, 'unixepoch', 'localtime') as last_visit_time
 	FROM history_visits hv INNER JOIN history_items hi ON hi.id = hv.history_item 
 	ORDER BY last_visit_time DESC"""
+
+    opera = """SELECT 
+	url, case when title is not null then title else 'not found title' end as title,
+	datetime((last_visit_time/1000000)-11644473600, 'unixepoch', 'localtime') as last_visit_time
+	FROM urls ORDER BY last_visit_time DESC"""
 
 
 class BrowserHistory:
